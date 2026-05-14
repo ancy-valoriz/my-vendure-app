@@ -1,0 +1,17 @@
+FROM node:20
+
+WORKDIR /app
+
+COPY . .
+
+RUN npm install --workspaces --include-workspace-root
+
+ARG NEXT_PUBLIC_VENDURE_SHOP_API_URL
+
+ENV NEXT_PUBLIC_VENDURE_SHOP_API_URL=$NEXT_PUBLIC_VENDURE_SHOP_API_URL
+
+RUN npm run build -w storefront
+
+EXPOSE 3001
+
+CMD ["npm", "run", "start:storefront"]
